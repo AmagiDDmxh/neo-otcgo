@@ -1,54 +1,47 @@
 <template>
   <div id="app">
-    <header>
-      <span>Vue.js PWA</span>
-    </header>
-    <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
-      <router-view></router-view>
-    </main>
+    <icon class="logo" name="logo"></icon>
+    <router-view></router-view>
+    <div>
+      <button @click="setLang(lang)" v-for="lang in locales" :disabled="isLang(lang)">
+        {{ $t('locales.' + lang) }}
+      </button>
+    </div>
+
+    <hr>
+
+    <div>
+      <button @click="increment">
+        {{ $tc('message.counter', countPlural, { n: count }) }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import { mapActions, mapGetters, mapState } from 'vuex'
+
+  export default {
+    computed: {
+      ...mapGetters(['countPlural']),
+      ...mapState(['count'])
+    },
+    methods: mapActions({ 'increment': 'INCREMENT' })
+  }
 </script>
 
-<style>
-body {
-  margin: 0;
-}
+<style lang="stylus">
+  @import "styles"
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+  html
+    +below(600px)
+      font-style 50%
 
-main {
-  text-align: center;
-  margin-top: 40px;
-}
+  #app
+    align()
+    text-align center
 
-header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #4fc08d;
-  color: #ffffff;
-}
+  .icon-logo
+    margin-bottom 2.5rem
 
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
-}
 </style>

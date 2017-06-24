@@ -1,0 +1,11 @@
+message:
+  welcome: Welcome to the neo OTCGO!
+  hello: Hello {name}!
+  counter: You clicked this button {n} time | You clicked this button {n} times
+buttons:
+  home: Home
+  hello: Hello
+locales:
+  zh-CN: zh-CN
+  en: English
+

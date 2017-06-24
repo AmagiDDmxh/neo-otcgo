@@ -1,0 +1,11 @@
+message:
+  welcome: 欢迎来到neo蓝鲸淘
+  hello: 你好 {name}!
+  counter: 你点击了此按钮 {n} 次
+buttons:
+  home: 主页
+  hello: 你好
+locales:
+  zh-CN: 中文
+  en: 英文
+
