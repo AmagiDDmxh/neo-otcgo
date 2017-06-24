@@ -19,16 +19,19 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json', 'yaml'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
+      'build': path.resolve(__dirname),
       '@': resolve('src'),
       'plugins': resolve('src/plugins'),
       'utils': resolve('src/utils'),
       'locales': resolve('src/locales'),
       'assets': resolve('src/assets'),
+      'svg': resolve('src/assets/svg'),
       'components': resolve('src/components'),
-      'views': resolve('src/views')
+      'views': resolve('src/views'),
+      't': resolve('src/store/mutation_types.js')
     }
   },
   module: {
@@ -52,8 +55,17 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
       },
+      { test: /\.json$/, loader: 'json' },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.svg(\?.*)?$/,
+        loader: 'svg-sprite-loader?' + JSON.stringify({
+          name: '[name]_[hash]',
+          spriteModule: 'build/sprite',
+          prefixize: true
+        })
+      },
+      {
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -71,16 +83,18 @@ module.exports = {
       {
         test: /\.styl$/,
         use: [
-            'style-loader',
-            'css-loader',
           {
             loader: 'stylus-loader',
             options: {
-              use: [require('jeet')()]
+              use: [require('jeet')()],
+              import: [
+                resolve('src/styles/index.styl')
+              ]
             }
           }
         ]
-      }
+      },
+      { test: /\.yml$/, loaders: ['json-loader', 'yaml-loader'] },
     ]
   },
 
